@@ -17,6 +17,7 @@ mid_career_90 DECIMAL (8,2),
 FOREIGN KEY (school) REFERENCES schools (school)
 );
 
+/*Clean for manipulation*/
 UPDATE school_salary_src
 SET mid_career_median = NULL
 WHERE mid_career_median = "";
@@ -52,28 +53,28 @@ SELECT *
 FROM school_salary_src;
 
 
-/* Question b */
+/* Information for Rutgers University */
 SELECT * 
 FROM school_salary
 WHERE school LIKE '%Rutgers%';
 
-/* Question c */
+/* Number of schools in the Big Ten */
 SELECT COUNT(*) AS "Number of Schools"
 FROM schools
 WHERE conference = "Big Ten";
 
-/* Question d */
+/* Ranking tech schools by lowest starting median salary */
 SELECT *
 FROM school_salary
 WHERE school LIKE '%tech%'
 ORDER BY starting_median DESC;
 
-/* Question e */
+/* Display the different conferences represented in the dataset */
 SELECT DISTINCT(conference)
 FROM schools
 WHERE conference IS NOT NULL;
 
-/* Question f */
+/* List the Big Ten school with the highest 90th percentile mid-career salary, along with the corresponding value */
 SELECT schools.school, school_salary.mid_career_90
 FROM schools
 JOIN school_salary ON schools.school = school_salary.school
@@ -83,14 +84,14 @@ JOIN schools ON schools.school = school_salary.school
 WHERE schools.conference = "Big Ten");
 
 
-/* Question g */
+/* Mid career 90th percentile salary in the Big Ten in descending order */
 SELECT schools.school, starting_median, mid_career_median, mid_career_90
 FROM school_salary
 JOIN schools ON schools.school = school_salary.school
 WHERE schools.conference = "Big Ten"
 ORDER BY mid_career_90 DESC;
 
-/* Question h */
+/* NJ school info... salary in $xxx,xxx.xx format */
 SELECT school, concat('$',format(starting_median, 'C')) AS starting_median, concat('$',format(mid_career_median, 'C')) AS mid_career_median, concat('$',format(mid_career_90, 'C')) AS mid_career_90
 FROM school_salary
 WHERE school IN ('Fairleigh Dickinson University',
@@ -98,7 +99,7 @@ WHERE school IN ('Fairleigh Dickinson University',
 Institute of Technology')
 ORDER BY school ASC;
 
-/* Question i */
+/* Conference(s) with most schools in dataset */
 DROP TABLE IF EXISTS byconference;
 DROP TABLE IF EXISTS byconference2;
 
